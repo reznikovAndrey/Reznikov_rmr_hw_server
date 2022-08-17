@@ -1,7 +1,10 @@
+import { randomUUID } from 'crypto';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import checkUserInDb from '../../infrastructure/db/db.service';
 
 import { UserDataCLient } from './auth.entities';
+
+import checkUserInDb from '../../infrastructure/db/db.service';
+import { removeSession, setSession } from '../../infrastructure/session/session.service';
 
 export async function loginUserHandler(
   request: FastifyRequest<{
@@ -17,7 +20,10 @@ export async function loginUserHandler(
     return reply.unauthorized('There is no user with such cridentals');
   }
 
-  return reply.setCookie('auth', 'auth', { path: '/', signed: true, httpOnly: true }).code(201).send({
+  const sessionToken = randomUUID();
+  setSession(sessionToken, { id: user.id, name: user.name });
+
+  return reply.setCookie('auth', sessionToken, { path: '/', signed: true, httpOnly: true }).code(201).send({
     status: 'OK!',
   });
 }
@@ -27,11 +33,13 @@ export async function logoutUserHandler(request: FastifyRequest, reply: FastifyR
     return reply.forbidden('No cookie');
   }
 
-  const result = reply.unsignCookie(request.cookies.auth);
+  const { valid, value } = reply.unsignCookie(request.cookies.auth);
 
-  if (!result.valid) {
+  if (!valid || !value) {
     return reply.forbidden('Invalid cookie');
   }
+
+  removeSession(value);
 
   return reply.clearCookie('auth').code(201).send({ status: 'OK!' });
 }
