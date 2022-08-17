@@ -21,3 +21,17 @@ export async function loginUserHandler(
     status: 'OK!',
   });
 }
+
+export async function logoutUserHandler(request: FastifyRequest, reply: FastifyReply) {
+  if (!request.cookies.auth) {
+    return reply.forbidden('No cookie');
+  }
+
+  const result = reply.unsignCookie(request.cookies.auth);
+
+  if (!result.valid) {
+    return reply.forbidden('Invalid cookie');
+  }
+
+  return reply.clearCookie('auth').code(201).send({ status: 'OK!' });
+}
