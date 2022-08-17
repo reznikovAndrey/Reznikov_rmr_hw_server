@@ -21,7 +21,9 @@
   "homepage": "https://github.com/reznikovAndrey/reznikov_rmr_hw_server#readme",
   "dependencies": {
     "@fastify/sensible": "^5.1.0",
-    "fastify": "^4.4.0"
+    "email-validator": "^2.0.4",
+    "fastify": "^4.4.0",
+    "phone": "^3.1.25"
   },
   "devDependencies": {
     "@types/node": "^18.7.5",
