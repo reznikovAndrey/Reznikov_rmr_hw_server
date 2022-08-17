@@ -6,6 +6,7 @@ import * as cs from 'cookie-signature';
 
 import authRoutes from './modules/auth/auth.routes';
 import API_URL from './utils/constants';
+import contentRoutes from './modules/content/content.routes';
 
 const server = fastify();
 
@@ -17,6 +18,7 @@ server.register(cookie, {
 
 // routes
 server.register(authRoutes, { prefix: API_URL });
+server.register(contentRoutes, { prefix: API_URL });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
