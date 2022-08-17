@@ -66,9 +66,11 @@ export async function profileHandler(request: FastifyRequest, reply: FastifyRepl
   }
 
   return reply.code(200).send({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
+    data: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+    },
   });
 }
