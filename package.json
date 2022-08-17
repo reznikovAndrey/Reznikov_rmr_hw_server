@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/reznikovAndrey/reznikov_rmr_hw_server#readme",
   "dependencies": {
+    "@fastify/sensible": "^5.1.0",
     "fastify": "^4.4.0"
   },
   "devDependencies": {

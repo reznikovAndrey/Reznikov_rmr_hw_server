@@ -14,9 +14,7 @@ export async function loginUserHandler(
   const user = checkUserInDb(body);
 
   if (!user) {
-    return reply.code(401).send({
-      message: 'There is no user with such cridentals',
-    });
+    return reply.unauthorized('There is no user with such cridentals');
   }
 
   return reply.code(201).send({

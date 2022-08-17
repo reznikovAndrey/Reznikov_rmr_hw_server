@@ -5,6 +5,10 @@ import API_URL from '../utils/constants';
 
 const server = fastify();
 
+// plugins
+server.register(import('@fastify/sensible'));
+
+// routes
 server.register(authRoutes, { prefix: API_URL });
 
 server.listen({ port: 8080 }, (err, address) => {
