@@ -7,13 +7,13 @@ import getKitty from '../../utils/getKitty';
 
 export async function kittyHandler(request: FastifyRequest, reply: FastifyReply) {
   if (!request.cookies.auth) {
-    return reply.forbidden('No cookie');
+    return reply.unauthorized('No cookie');
   }
 
   const { valid, value } = reply.unsignCookie(request.cookies.auth);
 
   if (!valid || !value) {
-    return reply.forbidden('Invalid cookie');
+    return reply.unauthorized('Invalid cookie');
   }
 
   return reply.code(200).send({
@@ -38,7 +38,7 @@ export async function kittySrcHandler(
   const { valid, value } = reply.unsignCookie(request.cookies.auth);
 
   if (!valid || !value) {
-    return reply.forbidden('Invalid cookie');
+    return reply.unauthorized('Invalid cookie');
   }
 
   const { file } = request.params;
@@ -49,20 +49,20 @@ export async function kittySrcHandler(
 
 export async function profileHandler(request: FastifyRequest, reply: FastifyReply) {
   if (!request.cookies.auth) {
-    return reply.forbidden('No cookie');
+    return reply.unauthorized('No cookie');
   }
 
   const { valid, value } = reply.unsignCookie(request.cookies.auth);
 
   if (!valid || !value) {
-    return reply.forbidden('Invalid cookie');
+    return reply.unauthorized('Invalid cookie');
   }
 
   const userSession = getCurrentUserSession(value);
   const user = checkUserInDb(userSession);
 
   if (!user) {
-    return reply.forbidden('Invalid session');
+    return reply.unauthorized('Invalid session');
   }
 
   return reply.code(200).send({

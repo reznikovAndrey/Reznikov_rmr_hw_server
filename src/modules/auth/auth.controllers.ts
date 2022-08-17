@@ -30,13 +30,13 @@ export async function loginUserHandler(
 
 export async function logoutUserHandler(request: FastifyRequest, reply: FastifyReply) {
   if (!request.cookies.auth) {
-    return reply.forbidden('No cookie');
+    return reply.unauthorized('No cookie');
   }
 
   const { valid, value } = reply.unsignCookie(request.cookies.auth);
 
   if (!valid || !value) {
-    return reply.forbidden('Invalid cookie');
+    return reply.unauthorized('Invalid cookie');
   }
 
   removeSession(value);

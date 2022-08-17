@@ -1,5 +1,4 @@
 import fastify from 'fastify';
-import '@fastify/sensible';
 import cookie from '@fastify/cookie';
 import type { FastifyCookieOptions } from '@fastify/cookie';
 import * as cs from 'cookie-signature';
@@ -9,6 +8,9 @@ import API_URL from './utils/constants';
 import contentRoutes from './modules/content/content.routes';
 
 const server = fastify();
+
+// plugins
+server.register(import('@fastify/sensible'));
 
 // cookies
 server.register(cookie, {
