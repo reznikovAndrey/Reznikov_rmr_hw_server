@@ -20,12 +20,15 @@
   },
   "homepage": "https://github.com/reznikovAndrey/reznikov_rmr_hw_server#readme",
   "dependencies": {
+    "@fastify/cookie": "^8.0.0",
     "@fastify/sensible": "^5.1.0",
+    "cookie-signature": "^1.2.0",
     "email-validator": "^2.0.4",
     "fastify": "^4.4.0",
     "phone": "^3.1.25"
   },
   "devDependencies": {
+    "@types/cookie-signature": "^1.0.4",
     "@types/node": "^18.7.5",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",

@@ -17,7 +17,7 @@ export async function loginUserHandler(
     return reply.unauthorized('There is no user with such cridentals');
   }
 
-  return reply.code(201).send({
+  return reply.setCookie('auth', 'auth', { path: '/', signed: true, httpOnly: true }).code(201).send({
     status: 'OK!',
   });
 }
