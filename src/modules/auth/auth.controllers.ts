@@ -5,6 +5,7 @@ import { UserDataCLient } from './auth.entities';
 
 import checkUserInDb from '../../infrastructure/db/db.service';
 import { removeSession, setSession } from '../../infrastructure/session/session.service';
+import sessionStorage from '../../infrastructure/session/session.storage';
 
 export async function loginUserHandler(
   request: FastifyRequest<{
@@ -18,6 +19,13 @@ export async function loginUserHandler(
 
   if (!user) {
     return reply.unauthorized('There is no user with such cridentals');
+  }
+
+  if (request.cookies.auth) {
+    const { valid, value } = reply.unsignCookie(request.cookies.auth);
+    if (valid && value) {
+      removeSession(value);
+    }
   }
 
   const sessionToken = randomUUID();
