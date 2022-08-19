@@ -5,7 +5,6 @@ import { UserDataCLient } from './auth.entities';
 
 import checkUserInDb from '../../infrastructure/db/db.service';
 import { removeSession, setSession } from '../../infrastructure/session/session.service';
-import sessionStorage from '../../infrastructure/session/session.storage';
 
 export async function loginUserHandler(
   request: FastifyRequest<{
@@ -14,7 +13,6 @@ export async function loginUserHandler(
   reply: FastifyReply,
 ) {
   const { body } = request;
-
   const user = checkUserInDb(body);
 
   if (!user) {
@@ -37,17 +35,8 @@ export async function loginUserHandler(
 }
 
 export async function logoutUserHandler(request: FastifyRequest, reply: FastifyReply) {
-  if (!request.cookies.auth) {
-    return reply.unauthorized('No cookie');
-  }
-
-  const { valid, value } = reply.unsignCookie(request.cookies.auth);
-
-  if (!valid || !value) {
-    return reply.unauthorized('Invalid cookie');
-  }
-
-  removeSession(value);
+  const { value } = reply.unsignCookie(request.cookies.auth as string);
+  removeSession(value as string);
 
   return reply.clearCookie('auth').code(201).send({ status: 'OK!' });
 }
