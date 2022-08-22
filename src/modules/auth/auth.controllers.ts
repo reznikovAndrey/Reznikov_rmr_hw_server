@@ -21,9 +21,10 @@ export async function loginUserHandler(
 
   if (request.cookies.auth) {
     const { valid, value } = reply.unsignCookie(request.cookies.auth);
-    if (valid && value) {
-      removeSession(value);
+    if (!valid || !value) {
+      return reply.unauthorized('Invalid cookie on');
     }
+    removeSession(value);
   }
 
   const sessionToken = randomUUID();

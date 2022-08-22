@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-import { User } from '../../infrastructure/db/db.entities';
+import getKitty from './Utils/getKitty';
+
+import { User } from '../auth/auth.entities';
 import checkUserInDb from '../../infrastructure/db/db.service';
 import { getCurrentUserSession } from '../../infrastructure/session/session.service';
 import API_URL from '../../utils/constants';
-import getKitty from '../../utils/getKitty';
 
 export async function kittyHandler(request: FastifyRequest, reply: FastifyReply) {
   return reply.code(200).send({
@@ -32,6 +33,10 @@ export async function profileHandler(request: FastifyRequest, reply: FastifyRepl
   const { value } = reply.unsignCookie(request.cookies.auth as string);
   const userSession = getCurrentUserSession(value as string);
   const user = checkUserInDb(userSession);
+
+  if (!user) {
+    return reply.unauthorized('Invalid session');
+  }
 
   return reply.code(200).send({
     data: {

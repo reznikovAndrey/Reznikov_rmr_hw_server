@@ -1,7 +1,6 @@
 import users from './users.json';
 
-import { UserDataCLient } from '../../modules/auth/auth.entities';
-import { User } from './db.entities';
+import { UserDataCLient, User } from '../../modules/auth/auth.entities';
 import { UserSession } from '../session/session.entities';
 
 function isClientData(data: UserDataCLient | UserSession): data is UserDataCLient {
